@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer List | Gym Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background:#eef2f7;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        /* Navbar */
+        .navbar{
+            background:#111827 !important;
+            padding:15px;
+        }
+
+        .navbar-brand{
+            color:#FFD700 !important;
+            font-size:26px;
+            font-weight:bold;
+        }
+
+        .nav-link{
+            color:white !important;
+            margin-left:15px;
+            font-weight:500;
+        }
+
+        .nav-link:hover{
+            color:#FFD700 !important;
+        }
+
+        /* Header */
+        .page-header{
+            background:linear-gradient(90deg,#111827,#2563eb);
+            color:white;
+            padding:35px;
+            text-align:center;
+            border-radius:0 0 20px 20px;
+            margin-bottom:30px;
+        }
+
+        .page-header h1{
+            font-size:38px;
+            font-weight:bold;
+        }
+
+        /* Card */
+        .table-card{
+            background:white;
+            padding:25px;
+            border-radius:18px;
+            box-shadow:0 10px 25px rgba(0,0,0,.1);
+        }
+
+        /* Search */
+        .search-box input{
+            border-radius:10px;
+            height:48px;
+        }
+
+        .search-box button{
+            height:48px;
+            border-radius:10px;
+        }
+
+        /* Table */
+        .table{
+            border-radius:12px;
+            overflow:hidden;
+        }
+
+        .table thead{
+            background:#111827;
+            color:white;
+        }
+
+        .table tbody tr:hover{
+            background:#f1f5f9;
+        }
+
+        td,th{
+            vertical-align:middle;
+        }
+
+        .specialization{
+            background:#dbeafe;
+            color:#1d4ed8;
+            padding:6px 12px;
+            border-radius:20px;
+            font-size:13px;
+            font-weight:600;
+        }
+
+        .btn-edit{
+            background:#f59e0b;
+            color:white;
+            border:none;
+        }
+
+        .btn-edit:hover{
+            background:#d97706;
+            color:white;
+        }
+
+        .btn-delete{
+            background:#dc2626;
+            color:white;
+            border:none;
+        }
+
+        .btn-delete:hover{
+            background:#b91c1c;
+            color:white;
+        }
+
+        footer{
+            background:#111827;
+            color:white;
+            text-align:center;
+            padding:15px;
+            margin-top:40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+
+        <a class="navbar-brand" href="/">💪 Gym Management</a>
+
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/member/">Members</a>
+            <a class="nav-link" href="/trainers/">Trainers</a>
+            <a class="nav-link" href="/attendance-list/">Attendance</a>
+            <a class="nav-link" href="/payment-list/">Payments</a>
+        </div>
+
+    </div>
+</nav>
+
+<!-- Header -->
+<div class="page-header">
+    <h1>🏋️ Trainer List</h1>
+    <p>View and manage all gym trainers.</p>
+</div>
+
+<div class="container">
+
+    <div class="table-card">
+
+        <!-- Top Buttons -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+
+            <h3 class="text-primary mb-0">All Trainers</h3>
+
+            <a href="/add-trainer/" class="btn btn-primary px-4">
+                ➕ Add New Trainer
+            </a>
+
+        </div>
+
+        <!-- Search -->
+        {% comment %} <form method="GET" class="search-box mb-4">
+
+            <div class="row">
+
+                <div class="col-md-10 mb-2 mb-md-0">
+                    <input type="text"
+                           name="search"
+                           class="form-control"
+                           placeholder="🔍 Search Trainer by Name"
+                           value="{{ request.GET.search }}">
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100">
+                        Search
+                    </button>
+                </div>
+
+            </div>
+
+        </form> {% endcomment %}
+
+        <!-- Table -->
+        <div class="table-responsive">
+
+            <table class="table table-hover table-bordered align-middle">
+
+                <thead>
+                    <tr class="text-center">
+                        <th>#</th>
+                        <th>Trainer Name</th>
+                        <th>Trainer ID</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Specialization</th>
+                        <th>Action</th>
+                        {% comment %} <th width="160">Action</th> {% endcomment %}
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for trainer in trainers %}
+
+                <tr>
+
+                    <td class="text-center">{{ trainer.id }}</td>
+
+                    <td>
+                        <strong>{{ trainer.name }}</strong>
+                    </td>
+
+                    <td class="text-center">
+                        {{ trainer.trainer_id }}
+                    </td>
+
+                    <td>{{ trainer.phone }}</td>
+
+                    <td>{{ trainer.email }}</td>
+
+                    <td>
+                        <span class="specialization">
+                            {{ trainer.specialization }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <a href="/delete-trainer/{{ trainer.id }}/"
+                        class="btn btn-danger btn-sm"
+                        onclick="return confirm('Are you sure you want to delete this trainer?')">
+                            🗑 Delete
+                        </a>
+                    </td>
+
+                    {% comment %} <td class="text-center">
+
+                        <a href="/update-trainer/{{ trainer.id }}/"
+                           class="btn btn-edit btn-sm">
+                            ✏️ Edit
+                        </a>
+
+                        <a href="/delete-trainer/{{ trainer.id }}/"
+                           class="btn btn-delete btn-sm">
+                            🗑 Delete
+                        </a>
+
+                    </td> {% endcomment %}
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="7" class="text-center text-danger fw-bold p-4">
+                        No Trainers Found
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    © 2026 Gym Management System | Trainer Management
+</footer>
+
+</body>
+</html>

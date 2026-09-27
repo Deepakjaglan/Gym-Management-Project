@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance | Gym Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background:#eef2f7;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        /* Navbar */
+        .navbar{
+            background:#111827 !important;
+            padding:15px;
+        }
+
+        .navbar-brand{
+            color:#FFD700 !important;
+            font-size:26px;
+            font-weight:bold;
+        }
+
+        .nav-link{
+            color:white !important;
+            margin-left:15px;
+            font-weight:500;
+        }
+
+        .nav-link:hover{
+            color:#FFD700 !important;
+        }
+
+        /* Header */
+        .header-section{
+            background:linear-gradient(90deg,#111827,#0EA5E9);
+            color:white;
+            text-align:center;
+            padding:40px 20px;
+        }
+
+        .header-section h1{
+            font-size:40px;
+            font-weight:bold;
+        }
+
+        /* Attendance Card */
+        .attendance-card{
+            max-width:750px;
+            margin:auto;
+            margin-top:-35px;
+            background:white;
+            border:none;
+            border-radius:20px;
+            box-shadow:0 10px 25px rgba(0,0,0,.15);
+            padding:30px;
+        }
+
+        .attendance-card h2{
+            color:#0EA5E9;
+            text-align:center;
+            font-weight:bold;
+            margin-bottom:25px;
+        }
+
+        .info-box{
+            background:#E0F2FE;
+            color:#0369A1;
+            padding:12px;
+            border-radius:10px;
+            text-align:center;
+            margin-bottom:20px;
+            font-weight:600;
+        }
+
+        label{
+            font-weight:bold;
+            color:#374151;
+            margin-bottom:6px;
+        }
+
+        .form-control,
+        .form-select{
+            border-radius:12px;
+            padding:12px;
+        }
+
+        .form-control:focus,
+        .form-select:focus{
+            border-color:#0EA5E9;
+            box-shadow:0 0 10px rgba(14,165,233,.3);
+        }
+
+        .btn-attendance{
+            background:#0EA5E9;
+            color:white;
+            border:none;
+            border-radius:12px;
+            padding:14px;
+            font-size:18px;
+            font-weight:bold;
+            transition:.3s;
+        }
+
+        .btn-attendance:hover{
+            background:#0284C7;
+        }
+
+        footer{
+            background:#111827;
+            color:white;
+            text-align:center;
+            padding:15px;
+            margin-top:50px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+
+        <a class="navbar-brand" href="/">💪 Gym Management</a>
+
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/member/">Members</a>
+            <a class="nav-link" href="/trainers/">Trainers</a>
+            <a class="nav-link" href="/attendance-list/">Attendance</a>
+            <a class="nav-link" href="/payment-list/">Payments</a>
+        </div>
+
+    </div>
+</nav>
+
+<!-- Header -->
+<div class="header-section">
+    <h1>📅 Mark Member Attendance</h1>
+    <p>Record today's attendance for gym members.</p>
+</div>
+
+<!-- Attendance Form -->
+<div class="container mb-5">
+
+    <div class="attendance-card">
+
+        <div class="info-box">
+            ✅ Attendance can only be marked for today's date.
+        </div>
+
+        <h2>Attendance Form</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="row">
+
+                <!-- Member -->
+                <div class="col-md-6 mb-3">
+                    <label>👤 Select Member</label>
+                    <select name="member" class="form-select" required>
+                        <option value="">Choose Member</option>
+
+                        {% for member in members %}
+                        <option value="{{ member.id }}">
+                            {{ member.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Trainer -->
+                <div class="col-md-6 mb-3">
+                    <label>🏋️ Select Trainer</label>
+                    <select name="trainer" class="form-select" required>
+                        <option value="">Choose Trainer</option>
+
+                        {% for trainer in trainers %}
+                        <option value="{{ trainer.id }}">
+                            {{ trainer.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Date -->
+                <div class="col-md-6 mb-3">
+                    <label>📅 Attendance Date</label>
+                    <input type="date"
+                           name="date"
+                           value="{{ today }}"
+                           min="{{ today }}"
+                           max="{{ today }}"
+                           class="form-control"
+                           required>
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-6 mb-3">
+                    <label>📌 Attendance Status</label>
+                    <select name="status" class="form-select" required>
+                        <option value="">Select Status</option>
+                        <option value="Present">✅ Present</option>
+                        <option value="Absent">❌ Absent</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-attendance w-100 mt-3">
+                ✅ Save Attendance
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    © 2026 Gym Management System | Attendance Management
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Member Registration</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background:#eef2f7;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        /* Navbar */
+        .navbar{
+            background:#111827 !important;
+            padding:15px;
+        }
+
+        .navbar-brand{
+            color:#FFD700 !important;
+            font-size:26px;
+            font-weight:bold;
+        }
+
+        .nav-link{
+            color:white !important;
+            margin-left:15px;
+            font-weight:500;
+        }
+
+        .nav-link:hover{
+            color:#FFD700 !important;
+        }
+
+        /* Header */
+        .header-section{
+            background:linear-gradient(90deg,#111827,#16a34a);
+            color:white;
+            padding:40px 20px;
+            text-align:center;
+        }
+
+        .header-section h1{
+            font-size:40px;
+            font-weight:bold;
+        }
+
+        /* Form Card */
+        .register-card{
+            max-width:750px;
+            margin:auto;
+            margin-top:-40px;
+            border:none;
+            border-radius:20px;
+            box-shadow:0 10px 30px rgba(0,0,0,.15);
+            padding:30px;
+            background:white;
+        }
+
+        .register-card h2{
+            text-align:center;
+            color:#16a34a;
+            font-weight:bold;
+            margin-bottom:25px;
+        }
+
+        label{
+            font-weight:bold;
+            margin-bottom:6px;
+            color:#374151;
+        }
+
+        .form-control,
+        .form-select{
+            border-radius:12px;
+            padding:12px;
+            border:1px solid #ced4da;
+        }
+
+        .form-control:focus,
+        .form-select:focus{
+            border-color:#16a34a;
+            box-shadow:0 0 10px rgba(22,163,74,.3);
+        }
+
+        .btn-register{
+            background:#16a34a;
+            color:white;
+            border:none;
+            border-radius:12px;
+            padding:14px;
+            font-size:18px;
+            font-weight:bold;
+            transition:.3s;
+        }
+
+        .btn-register:hover{
+            background:#15803d;
+        }
+
+        .info-box{
+            background:#d1fae5;
+            color:#166534;
+            padding:12px;
+            border-radius:10px;
+            text-align:center;
+            margin-bottom:20px;
+            font-weight:600;
+        }
+
+        footer{
+            background:#111827;
+            color:white;
+            text-align:center;
+            padding:15px;
+            margin-top:50px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">💪 Gym Management</a>
+
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/member/">Members</a>
+            <a class="nav-link" href="/trainers/">Trainers</a>
+            <a class="nav-link" href="/attendance-list/">Attendance</a>
+            <a class="nav-link" href="/payment-list/">Payments</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Header -->
+<div class="header-section">
+    <h1>🏋️ Register New Gym Member</h1>
+    <p>Fill in the member details to create a new registration.</p>
+</div>
+
+<!-- Registration Form -->
+<div class="container mb-5">
+
+    <div class="register-card">
+
+        <div class="info-box">
+            ✅ All fields are required to register a member.
+        </div>
+
+        <h2>Member Registration Form</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label>👤 Full Name</label>
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           placeholder="Enter Member Name"
+                           pattern="[A-Za-z ]+"
+                           title="Name should contain only letters."
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>🎂 Age</label>
+                    <input type="number"
+                           name="age"
+                           class="form-control"
+                           placeholder="Enter Age"
+                           min="12"
+                           max="100"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>⚧ Gender</label>
+                    <select name="gender" class="form-select" required>
+                        <option value="">Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>📞 Mobile Number</label>
+                    <input type="tel"
+                           name="phone"
+                           class="form-control"
+                           placeholder="10 Digit Mobile Number"
+                           pattern="[0-9]{10}"
+                           maxlength="10"
+                           title="Enter exactly 10 digits."
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>📧 Email Address</label>
+                    <input type="email"
+                           name="email"
+                           class="form-control"
+                           placeholder="Enter Email Address"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>📅 Join Date</label>
+                    <input type="date"
+                           name="join_date"
+                           value="{{ today }}"
+                           min="{{ today }}"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <label>📍 Address</label>
+                    <textarea name="address"
+                              rows="3"
+                              class="form-control"
+                              placeholder="Enter Full Address"
+                              required></textarea>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-register w-100">
+                ✅ Register Member
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    © 2026 Gym Management System | Member Registration
+</footer>
+
+</body>
+</html>
